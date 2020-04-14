@@ -1,6 +1,5 @@
 import express from 'express';
 import { json, urlencoded } from 'body-parser';
-// TODO: Creste Routes Folde (1)
 import appRoute from './routes/app';
 import logsRoute from './routes/logs';
 
@@ -13,10 +12,15 @@ app.use((req, res, next) => {
   next();
 });
 
+const requestTime = (req, res, next) => {
+  req.requestTime = Date.now();
+  next();
+};
+
 app.use(json());
 app.use(urlencoded({ extended: true }));
+app.use(requestTime);
 
-// TODO: Creste Routes Modules (1)
 app.use('/api/v1/', appRoute);
 app.use('/api/v1/logs', logsRoute);
 

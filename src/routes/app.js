@@ -3,6 +3,6 @@ import appController from '../controllers/app';
 
 const router = express.Router();
 
-router.post('/', appController.makeComputation);
+router.post('/', appController.makeEsimate);
 
 export default router;
