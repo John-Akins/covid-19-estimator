@@ -1,8 +1,9 @@
-const InfectionRateByRequestedTime = (currentlyInfected, periodType, timeToElapse) => {
+const InfectionRateByRequestedTime = (currentlyInfected,
+  periodType, timeToElapse) => {
   let days = 0;
   switch (periodType) {
     case 'days':
-      days = 1 * timeToElapse;
+      days = timeToElapse;
       break;
     case 'weeks':
       days = 7 * timeToElapse;
@@ -14,7 +15,7 @@ const InfectionRateByRequestedTime = (currentlyInfected, periodType, timeToElaps
       days = 30;
       break;
   }
-  return Math.trunc((currentlyInfected * 1024 * days) / 30);
+  return Math.trunc(currentlyInfected * (2 ** (days / 3)));
 };
 
 const EstimateBestCase = (data) => {
