@@ -15,7 +15,7 @@ const sampleData = {
 const compareObjectKeys = (a, b) => {
   const aKeys = Object.keys(a).sort();
   const bKeys = Object.keys(b).sort();
- return JSON.stringify(aKeys) === JSON.stringify(bKeys);
+  return JSON.stringify(aKeys) === JSON.stringify(bKeys);
 };
 
 const compareObjectKeysValueTypes = (a, b) => {
