@@ -20,7 +20,7 @@ logsController.getLoggedRequests = (req, res) => {
 
   _db.default.query(query).then(data => {
     _responseUtility.default.success(res, data);
-  }).catch(error => {
+  }).catch(() => {
     _responseUtility.default.error(res, 400, 'someting went wrong while processing your request');
   });
 };
@@ -38,7 +38,7 @@ logsController.logNewRequest = (req, res) => {
 
   _db.default.query(query).then(response => {
     _responseUtility.default.success(res, response.rows);
-  }).catch(error => _responseUtility.default.error(res, 400, 'someting went wrong while processing your request'));
+  }).catch(() => _responseUtility.default.error(res, 400, 'someting went wrong while processing your request'));
 };
 
 var _default = logsController;

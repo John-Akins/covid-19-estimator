@@ -17,6 +17,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 const app = (0, _express.default)();
 app.use((req, res, next) => {
+  console.log("You're here");
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
@@ -28,11 +29,11 @@ const requestTime = (req, res, next) => {
   next();
 };
 
+app.use(requestTime);
 app.use((0, _bodyParser.json)());
 app.use((0, _bodyParser.urlencoded)({
   extended: true
 }));
-app.use(requestTime);
 app.use('/api/v1/', _app.default);
 app.use('/api/v1/logs', _logs.default);
 var _default = app;

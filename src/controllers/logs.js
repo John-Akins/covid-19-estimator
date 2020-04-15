@@ -3,32 +3,37 @@ import db from '../db';
 
 const logsController = {};
 
+const logToText = (data) => {
+  let textLog = '';
+  data.forEach((log) => {
+    textLog += ` ${log.timestamp} ${log.url} ${log.duration}  \n`;
+  });
+  return textLog;
+};
+
 logsController.getLoggedRequests = (req, res) => {
-  const query = {
-    text: 'SELECT * FROM logs'
-  };
-  db.query(query)
+  db.query('SELECT * FROM logs')
     .then((data) => {
-      responseUtility.success(res, data);
+      const logText = logToText(data.rows);
+      responseUtility.success(res, logText);
     })
-    .catch((error) => {
+    .catch(() => {
       responseUtility.error(res, 400, 'someting went wrong while processing your request');
     });
 };
 
-logsController.logNewRequest = (req, res) => {
-  const { requesTime, baseUrl } = req;
-  const duration = (Date.now() - requesTime) / 1000;
+logsController.logNewRequest = (req) => {
+  const { requestTime, baseUrl } = req;
+  const duration = (Date.now() - requestTime) / 1000;
 
   const query = {
     text: 'INSERT INTO logs ("timestamp", "url", "duration") values  ($1, $2, $3)',
-    values: [requesTime, baseUrl, duration]
+    values: [requestTime, baseUrl, duration]
   };
+
   db.query(query)
-    .then((response) => {
-      responseUtility.success(res, response.rows);
-    })
-    .catch((error) => responseUtility.error(res, 400, 'someting went wrong while processing your request'));
+    .then(() => true)
+    .catch(() => false);
 };
 
 export default logsController;

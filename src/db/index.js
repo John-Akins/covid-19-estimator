@@ -2,10 +2,9 @@ import { Client } from 'pg';
 
 require('dotenv').config();
 
-const env = (process.env.NODE_ENV === undefined) ? 'development' : process.env.NODE_ENV.trim();
 const connection = {};
 
-connection.String = (env === 'development') ? process.env.DB_DEV_URL : process.env.DB_TEST_URL;
+connection.String = process.env.DB_URL;
 
 const client = new Client({ connectionString: connection.String });
 
