@@ -2,6 +2,11 @@
   "name": "covid-19-estimator-js",
   "version": "1.0.0",
   "repository": "git@github.com:BuildforSDG-Cohort1-Assessment/covid-19-estimator-js.git",
+  "main": "index.js",
+  "engines": {
+    "node": "12.16.0",
+    "npm": "6.14.14"
+  },
   "license": "MIT",
   "private": false,
   "scripts": {
