@@ -7,7 +7,7 @@
   "private": false,
   "scripts": {
     "lint": "eslint ./src/",
-    "start": "rm -rf ./build && babel -d build/src ./src -s && node ./build/src/server.js",
+    "start": "node ./build/src/server.js",
     "build": "rm -rf ./build && babel -d build/src ./src -s",
     "dev": "nodemon --exec babel-node src/server.js"
   },
@@ -31,9 +31,9 @@
     "@babel/plugin-transform-runtime": "^7.6.2",
     "@babel/preset-env": "^7.9.0",
     "@babel/register": "^7.7.0",
-    "babel-loader": "^8.0.6",
     "babel-cli": "^6.26.0",
     "babel-jest": "^25.2.0",
+    "babel-loader": "^8.0.6",
     "eslint": "^6.8.0",
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-plugin-import": "^2.20.1",
