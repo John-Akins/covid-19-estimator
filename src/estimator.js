@@ -17,27 +17,35 @@ const getElapsedDays = (periodType, timeToElapse) => {
   return days;
 };
 
-//  const factor = 2 ** Math.trunc(days / 3);
-const InfectionRateByRequestedTime = (currentlyInfected, days) => currentlyInfected
-  * 1024 * (days / 30);
+const getDailyIncome = (avgDailyIncome, avgDailyIncomePopulation, days) => (avgDailyIncome
+  * avgDailyIncomePopulation) / days;
+
+const InfectionRateByRequestedTime = (currentlyInfected, days) => {
+  const factor = 2 ** Math.trunc(days / 3);
+  return Math.trunc(currentlyInfected * factor);
+};
 
 const EstimateBestCase = (data) => {
+  const {
+    periodType,
+    timeToElapse,
+    reportedCases,
+    totalHospitalBeds
+  } = data;
+
   const { avgDailyIncomeInUSD, avgDailyIncomePopulation } = data.region;
-  const { periodType, timeToElapse, reportedCases } = data;
 
   const elapsedDays = getElapsedDays(periodType, timeToElapse);
+  const dailyIncome = getDailyIncome(avgDailyIncomeInUSD, avgDailyIncomePopulation, elapsedDays);
+  const vacantHospitalBeds = totalHospitalBeds * 0.35;
 
   const currentlyInfected = Math.trunc(reportedCases * 10);
   const infectionsByRequestedTime = InfectionRateByRequestedTime(currentlyInfected, elapsedDays);
   const severeCasesByRequestedTime = Math.trunc(infectionsByRequestedTime * (15 / 100));
-  const hospitalBedsByRequestedTime = Math.trunc(data.totalHospitalBeds * (35 / 100));
+  const hospitalBedsByRequestedTime = Math.trunc(vacantHospitalBeds - severeCasesByRequestedTime);
   const casesForICUByRequestedTime = Math.trunc(infectionsByRequestedTime * (5 / 100));
   const casesForVentilatorsByRequestedTime = Math.trunc(infectionsByRequestedTime * (2 / 100));
-  const dollarsInFlight = Math.trunc(
-    (infectionsByRequestedTime * avgDailyIncomePopulation)
-    * avgDailyIncomeInUSD
-    * elapsedDays
-  );
+  const dollarsInFlight = Math.trunc(dailyIncome * infectionsByRequestedTime);
 
   return {
     currentlyInfected,
@@ -51,22 +59,26 @@ const EstimateBestCase = (data) => {
 };
 
 const EstimateSevereCase = (data) => {
+  const {
+    periodType,
+    timeToElapse,
+    reportedCases,
+    totalHospitalBeds
+  } = data;
+
   const { avgDailyIncomeInUSD, avgDailyIncomePopulation } = data.region;
-  const { periodType, timeToElapse, reportedCases } = data;
 
   const elapsedDays = getElapsedDays(periodType, timeToElapse);
+  const dailyIncome = getDailyIncome(avgDailyIncomeInUSD, avgDailyIncomePopulation, elapsedDays);
+  const vacantHospitalBeds = totalHospitalBeds * 0.35;
 
-  const currentlyInfected = Math.trunc(reportedCases * 10);
+  const currentlyInfected = Math.trunc(reportedCases * 50);
   const infectionsByRequestedTime = InfectionRateByRequestedTime(currentlyInfected, elapsedDays);
   const severeCasesByRequestedTime = Math.trunc(infectionsByRequestedTime * (15 / 100));
-  const hospitalBedsByRequestedTime = Math.trunc(data.totalHospitalBeds * (35 / 100));
+  const hospitalBedsByRequestedTime = Math.trunc(vacantHospitalBeds - severeCasesByRequestedTime);
   const casesForICUByRequestedTime = Math.trunc(infectionsByRequestedTime * (5 / 100));
   const casesForVentilatorsByRequestedTime = Math.trunc(infectionsByRequestedTime * (2 / 100));
-  const dollarsInFlight = Math.trunc(
-    (infectionsByRequestedTime * avgDailyIncomePopulation)
-    * avgDailyIncomeInUSD
-    * elapsedDays
-  );
+  const dollarsInFlight = Math.trunc(dailyIncome * infectionsByRequestedTime);
 
   return {
     currentlyInfected,
