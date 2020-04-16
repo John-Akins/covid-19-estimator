@@ -17,10 +17,9 @@ const getElapsedDays = (periodType, timeToElapse) => {
   return days;
 };
 
-const InfectionRateByRequestedTime = (currentlyInfected, days) => {
 //  const factor = 2 ** Math.trunc(days / 3);
-  return (currentlyInfected * 1024) * (days / 30);
-};
+const InfectionRateByRequestedTime = (currentlyInfected, days) => currentlyInfected
+  * 1024 * (days / 30);
 
 const EstimateBestCase = (data) => {
   const { avgDailyIncomeInUSD, avgDailyIncomePopulation } = data.region;
