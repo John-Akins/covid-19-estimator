@@ -11,7 +11,7 @@
   "private": false,
   "scripts": {
     "lint": "eslint ./src/",
-    "start": "node build/src/server.js",
+    "start": "node ./build/src/server.js",
     "build": "rm -rf ./build && babel -d build/src ./src -s",
     "dev": "nodemon --exec babel-node src/server.js"
   },
