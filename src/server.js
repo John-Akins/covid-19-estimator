@@ -25,6 +25,8 @@ app.set('port', port);
 
 const server = http.createServer(app);
 
+console.log(port);
+
 // checks for various errors and handles them appropriately,
 // also registers them to the server
 const errorHandler = (error) => {
