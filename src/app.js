@@ -17,7 +17,7 @@ app.use((req, res, next) => {
 app.use(json());
 app.use(urlencoded({ extended: true }));
 
-app.use('/api/v1/', appRoute);
+app.use('/api/v1/on-covid-19', appRoute);
 app.use('/api/v1/logs', logsRoute);
 
 export default app;
